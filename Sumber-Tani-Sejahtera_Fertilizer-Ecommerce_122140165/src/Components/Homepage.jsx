@@ -35,7 +35,7 @@ const Homepage = () => {
         {/* Ikon Kanan */}
         <div className="flex items-center space-x-6">
           {/* Cart */}
-          <Link to="/cart" className="flex items-center text-gray-700 hover:text-green-600">
+          <Link to="/ShopCart" className="flex items-center text-gray-700 hover:text-green-600">
             <svg className="w-6 h-6 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 10V6a3 3 0 0 1 3-3v0a3 3 0 0 1 3 3v4m3-2 .917 11.923A1 1 0 0 1 17.92 21H6.08a1 1 0 0 1-.997-1.077L6 8h12Z"/>
             </svg>
@@ -43,7 +43,7 @@ const Homepage = () => {
           </Link>
 
           {/* Akun */}
-         <Link to="/login" className="flex items-center text-gray-700 hover:text-green-600">
+         <Link to="/Loginpage" className="flex items-center text-gray-700 hover:text-green-600">
   <svg className="w-6 h-6 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3m-3 3h3m-3 3h3m-6 1c-.306-.613-.933-1-1.618-1H7.618c-.685 0-1.312.387-1.618 1M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm7 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/>
   </svg>
@@ -93,7 +93,7 @@ const Homepage = () => {
         </div>
         <nav className="flex flex-col p-4 space-y-2 text-gray-700">
           <Link to="/" className="hover:bg-gray-100 px-3 py-2 rounded">Beranda</Link>
-          <Link to="/produk" className="hover:bg-gray-100 px-3 py-2 rounded">Produk</Link>
+          <Link to="/ProductList" className="hover:bg-gray-100 px-3 py-2 rounded">Produk</Link>
           <Link to="/tentang" className="hover:bg-gray-100 px-3 py-2 rounded">Tentang</Link>
           <Link to="/kontak" className="hover:bg-gray-100 px-3 py-2 rounded">Kontak</Link>
         </nav>
@@ -106,7 +106,7 @@ const Homepage = () => {
       <div className="bg-gradient-to-r from-green-300 to-green-500 text-white text-center py-20 rounded-b-xl">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">Selamat Datang di Toko Pupuk</h1>
         <p className="text-lg mb-6">Temukan berbagai jenis pupuk berkualitas untuk pertanian Anda</p>
-        <Link to="/produk" className="bg-white text-green-600 px-6 py-2 rounded-full shadow hover:bg-gray-200">
+        <Link to="/" className="bg-white text-green-600 px-6 py-2 rounded-full shadow hover:bg-gray-200">
           Lihat Produk
         </Link>
       </div>
