@@ -7,14 +7,14 @@ const dummyCart = [
     nama: 'Pupuk Organik Cair',
     harga: 25000,
     jumlah: 2,
-    gambar: 'https://via.placeholder.com/150x100?text=Organik+Cair',
+    gambar: 'https://gdm.id/wp-content/uploads/2024/08/POC-buah-1lt.webp',
   },
   {
     id: 2,
     nama: 'Pupuk NPK Mutiara',
     harga: 45000,
     jumlah: 1,
-    gambar: 'https://via.placeholder.com/150x100?text=NPK+Mutiara',
+    gambar: 'https://parto.id/asset/foto_produk/NPK_Mutiara_16_16_16Asset_4@3x1.png',
   },
 ];
 

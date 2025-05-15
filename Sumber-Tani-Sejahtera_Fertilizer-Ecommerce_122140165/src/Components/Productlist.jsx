@@ -7,28 +7,28 @@ const produk = [
     nama: 'Pupuk Organik Cair',
     deskripsi: 'Meningkatkan kesuburan tanah dan ramah lingkungan.',
     harga: 'Rp25.000',
-    gambar: 'https://via.placeholder.com/200x150?text=Organik+Cair',
+    gambar: 'https://gdm.id/wp-content/uploads/2024/08/POC-buah-1lt.webp',
   },
   {
     id: 2,
     nama: 'Pupuk NPK Mutiara',
     deskripsi: 'Pupuk majemuk lengkap untuk semua jenis tanaman.',
     harga: 'Rp45.000',
-    gambar: 'https://via.placeholder.com/200x150?text=NPK+Mutiara',
+    gambar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtQBiMiZoOLxqNQy5ateApcQA7um9MZSIPJw&s',
   },
   {
     id: 3,
     nama: 'Pupuk Kompos',
     deskripsi: 'Pupuk padat alami dari limbah organik.',
     harga: 'Rp15.000',
-    gambar: 'https://via.placeholder.com/200x150?text=Kompos',
+    gambar: 'https://yuknanam.com/wp-content/uploads/2020/11/pupuk-kompos.jpg',
   },
   {
     id: 4,
     nama: 'Pupuk Urea',
     deskripsi: 'Mengandung nitrogen tinggi untuk pertumbuhan daun.',
     harga: 'Rp30.000',
-    gambar: 'https://via.placeholder.com/200x150?text=Urea',
+    gambar: 'https://www.petrosida-gresik.com/sites/default/files/urea%20subsidi_0.jpg',
   },
 ];
 

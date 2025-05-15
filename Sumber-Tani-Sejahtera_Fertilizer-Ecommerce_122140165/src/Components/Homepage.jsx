@@ -11,7 +11,7 @@ const Homepage = () => {
       <header className="fixed top-0 left-0 right-0 z-40 bg-white border-b shadow-sm flex items-center justify-between px-6 py-3">
         {/* Logo */}
         <div className="text-xl font-bold text-green-600">
-          TokoPupuk
+          Sumber Tani Sejahtera
         </div>
 
         {/* Menu Navigasi */}
@@ -104,8 +104,8 @@ const Homepage = () => {
 
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-green-300 to-green-500 text-white text-center py-20 rounded-b-xl">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Selamat Datang di Toko Pupuk</h1>
-        <p className="text-lg mb-6">Temukan berbagai jenis pupuk berkualitas untuk pertanian Anda</p>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">Sumber Tani Sejahtera</h1>
+        <p className="text-lg mb-6">"Solusi Tepat Tanaman Anda"</p>
         <Link to="/" className="bg-white text-green-600 px-6 py-2 rounded-full shadow hover:bg-gray-200">
           Lihat Produk
         </Link>
@@ -118,21 +118,21 @@ const Homepage = () => {
           {[{
             nama: 'Pupuk Organik A',
             desc: 'Cocok untuk semua jenis tanaman. 100% alami.',
-            img: 'https://via.placeholder.com/150',
+            img: 'https://siplah-oss.tokoladang.co.id/merchant/16163/product/2sUJOAjJo1YVoY4rfVuL3ke1LQEyofjjyoXgdCsG.jpg',
           }, {
             nama: 'Pupuk Cair B',
             desc: 'Mudah diserap tanaman dan ramah lingkungan.',
-            img: 'https://via.placeholder.com/150',
+            img: 'https://smb-padiumkm-images-public-prod.oss-ap-southeast-5.aliyuncs.com/product/image/29062024/631a57897255a77e0e7077d5/667f962e80cbe1298fb0abd0/9a087e315fec6ec5c9da8bdad44db7.png?x-oss-process=image/resize,m_pad,w_432,h_432/quality,Q_70',
           }, {
             nama: 'Pupuk NPK C',
             desc: 'Meningkatkan hasil panen secara signifikan.',
-            img: 'https://via.placeholder.com/150',
+            img: 'https://storage.googleapis.com/pkg-portal-bucket/images/news/2014-05/segmentasi-pupuk-npk-kebomas/NPK-Kebomas-12-11-20.jpg',
           }].map((produk, i) => (
             <div key={i} className="border rounded-lg p-4 shadow hover:shadow-lg transition">
-              <img src={produk.img} alt={produk.nama} className="w-full h-32 object-cover mb-4 rounded" />
+              <img src={produk.img} alt={produk.nama} className="w-full h-60 object-cover mb-4 rounded" />
               <h3 className="text-lg font-semibold">{produk.nama}</h3>
               <p className="text-sm mb-4">{produk.desc}</p>
-              <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+              <button className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
                 Beli Sekarang
               </button>
             </div>
