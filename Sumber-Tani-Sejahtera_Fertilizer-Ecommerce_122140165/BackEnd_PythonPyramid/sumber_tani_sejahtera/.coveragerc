@@ -1,0 +1,3 @@
+[run]
+source = sumber_tani_sejahtera
+omit = sumber_tani_sejahtera/test*
