@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import ProductCard from './ProductCard';
 
 const produk = [
   {
@@ -34,42 +34,17 @@ const produk = [
 
 const ProductList = () => {
   return (
-    <div className="min-h-screen bg-green-50 py-12 px-6">
-      {/* Logo dan link ke homepage */}
-      <div className="mb-6">
-        <Link to="/" className="flex items-center space-x-2 hover:opacity-80">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/2909/2909763.png"
-            alt="Logo Toko Pupuk"
-            className="w-10 h-10"
-          />
-          <span className="text-xl font-bold text-green-700">Toko Pupuk</span>
-        </Link>
-      </div>
+    <div className="min-h-screen bg-green-50 py-18">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+        <h1 className="text-3xl font-extrabold text-green-700 text-center mb-10">
+          Daftar Produk Toko Pupuk
+        </h1>
 
-      <h1 className="text-3xl font-bold text-green-700 text-center mb-10">
-        Daftar Produk Toko Pupuk
-      </h1>
-
-      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {produk.map((item) => (
-          <div
-            key={item.id}
-            className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition"
-          >
-            <img
-              src={item.gambar}
-              alt={item.nama}
-              className="w-full h-40 object-cover rounded"
-            />
-            <h2 className="text-lg font-semibold mt-4">{item.nama}</h2>
-            <p className="text-sm text-gray-600 mt-1">{item.deskripsi}</p>
-            <p className="text-green-700 font-semibold mt-2">{item.harga}</p>
-            <button className="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
-              Tambah ke Keranjang
-            </button>
-          </div>
-        ))}
+        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {produk.map((item) => (
+            <ProductCard key={item.id} product={item} />
+          ))}
+        </div>
       </div>
     </div>
   );

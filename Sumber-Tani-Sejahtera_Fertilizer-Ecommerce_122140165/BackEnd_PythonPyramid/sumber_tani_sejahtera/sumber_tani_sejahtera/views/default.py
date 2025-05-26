@@ -1,32 +1,46 @@
-from pyramid.response import Response
 from pyramid.view import view_config
+from pyramid.response import Response
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy import engine_from_config
+from pyramid.paster import get_appsettings
+from ..models.LoginModel import User
+import jwt
+import datetime
 
-from sqlalchemy.exc import DBAPIError
+SECRET_KEY = 'secret123'
 
-from .. import models
-
-
-@view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
-def my_view(request):
+@view_config(route_name='login', request_method='POST', renderer='json')
+def login_view(request):
     try:
-        query = request.dbsession.query(models.MyModel)
-        one = query.filter(models.MyModel.name == 'one').first()
-    except DBAPIError:
-        return Response(db_err_msg, content_type='text/plain', status=500)
-    return {'one': one, 'project': 'Sumber_Tani_Sejahtera'}
+        data = request.json_body
+        username = data.get('username')
+        password = data.get('password')
 
+        # Setup session
+        settings = request.registry.settings
+        engine = engine_from_config(settings, 'sqlalchemy.')
+        DBSession = scoped_session(sessionmaker(bind=engine))
+        session = DBSession()
 
-db_err_msg = """\
-Pyramid is having a problem using your SQL database.  The problem
-might be caused by one of the following things:
+        user = session.query(User).filter_by(username=username, password=password).first()
 
-1.  You may need to initialize your database tables with `alembic`.
-    Check your README.txt for description and try to run it.
-
-2.  Your database server may not be running.  Check that the
-    database server referred to by the "sqlalchemy.url" setting in
-    your "development.ini" file is running.
-
-After you fix the problem, please restart the Pyramid application to
-try it again.
-"""
+        if user:
+            payload = {
+                'user_id': user.id,
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+            }
+            token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+            return {
+                'success': True,
+                'token': token
+            }
+        else:
+            return {
+                'success': False,
+                'message': 'Username atau password salah'
+            }
+    except Exception as e:
+        return {
+            'success': False,
+            'message': f'Error: {str(e)}'
+        }

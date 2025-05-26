@@ -1,15 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import useLoginpage from '../Hooks/useLoginpage'; // Pastikan ini alias dari useUserAccount.js
+import useRegisterPage from '../Hooks/UseRegisterPage'; // Buat hook ini seperti useLoginpage
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const {
     username,
+    email,
     password,
+    confirmPassword,
     setUsername,
+    setEmail,
     setPassword,
-    handleLogin,
-  } = useLoginpage();
+    setConfirmPassword,
+    handleRegister,
+  } = useRegisterPage();
 
   return (
     <div className="min-h-screen bg-green-100 flex items-center justify-center px-4">
@@ -23,17 +27,24 @@ const LoginPage = () => {
               className="w-16 h-16 mx-auto mb-2"
             />
           </Link>
-          <h1 className="text-2xl font-bold text-green-600">Login Toko Pupuk</h1>
+          <h1 className="text-2xl font-bold text-green-600">Daftar Toko Pupuk</h1>
         </div>
 
-        {/* Form Login */}
-        <form className="space-y-4" onSubmit={handleLogin}>
+        {/* Form Register */}
+        <form className="space-y-4" onSubmit={handleRegister}>
           <input
             type="text"
-            placeholder="Email atau Username"
+            placeholder="Username"
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-green-500"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-green-500"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
@@ -42,24 +53,26 @@ const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <input
+            type="password"
+            placeholder="Konfirmasi Password"
+            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-green-500"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
           <button
             type="submit"
             className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
           >
-            Masuk
+            Daftar
           </button>
         </form>
 
         {/* Navigasi Tambahan */}
         <div className="mt-4 text-sm text-center text-gray-600">
-          <Link to="/lupa-password" className="text-green-600 hover:underline">
-            Lupa password?
-          </Link>
-        </div>
-        <div className="mt-4 text-sm text-center text-gray-600">
-          Belum punya akun?{' '}
-          <Link to="/daftar" className="text-green-600 hover:underline">
-            Daftar sekarang
+          Sudah punya akun?{' '}
+          <Link to="/loginpage" className="text-green-600 hover:underline">
+            Masuk di sini
           </Link>
         </div>
       </div>
@@ -67,4 +80,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
