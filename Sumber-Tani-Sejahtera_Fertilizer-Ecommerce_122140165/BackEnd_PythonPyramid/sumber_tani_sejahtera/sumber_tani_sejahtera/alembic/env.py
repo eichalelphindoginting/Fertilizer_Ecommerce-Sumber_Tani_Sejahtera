@@ -4,6 +4,8 @@ from pyramid.paster import get_appsettings, setup_logging
 from sqlalchemy import engine_from_config
 
 from sumber_tani_sejahtera.models.meta import Base
+from sumber_tani_sejahtera.models.user import User
+target_metadata = Base.metadata
 
 config = context.config
 

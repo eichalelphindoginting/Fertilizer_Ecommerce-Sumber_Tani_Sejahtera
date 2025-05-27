@@ -1,26 +1,42 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCart } from '../context/CartContext'; // 🔄 Tambahkan ini
 
 const Homepage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+  const { addToCart } = useCart(); // 🔄 Ambil dari context
 
   const featuredProducts = [
     {
       nama: 'Pupuk Organik A',
       desc: 'Cocok untuk semua jenis tanaman. 100% alami dan ramah lingkungan.',
+      harga: 25000,
       img: 'https://siplah-oss.tokoladang.co.id/merchant/16163/product/2sUJOAjJo1YVoY4rfVuL3ke1LQEyofjjyoXgdCsG.jpg',
     },
     {
       nama: 'Pupuk Cair B',
       desc: 'Mudah diserap oleh akar tanaman. Mengandung nutrisi lengkap.',
+      harga: 30000,
       img: 'https://smb-padiumkm-images-public-prod.oss-ap-southeast-5.aliyuncs.com/product/image/29062024/631a57897255a77e0e7077d5/667f962e80cbe1298fb0abd0/9a087e315fec6ec5c9da8bdad44db7.png?x-oss-process=image/resize,m_pad,w_432,h_432/quality,Q_70',
     },
     {
       nama: 'Pupuk NPK C',
       desc: 'Mengandung Nitrogen, Fosfor, dan Kalium seimbang untuk panen maksimal.',
+      harga: 45000,
       img: 'https://storage.googleapis.com/pkg-portal-bucket/images/news/2014-05/segmentasi-pupuk-npk-kebomas/NPK-Kebomas-12-11-20.jpg',
     },
   ];
+
+ const handleBuyNow = (produk) => {
+  addToCart({
+    id: produk.nama, // gunakan 'nama' sebagai id sementara
+    nama: produk.nama,
+    harga: produk.harga,
+    gambar: produk.img,
+  });
+  navigate('/ShopCart');
+};
 
   return (
     <div className="relative min-h-screen bg-white text-gray-800 overflow-x-hidden">
@@ -74,22 +90,15 @@ const Homepage = () => {
           <h2 className="text-lg font-semibold text-green-600">Menu</h2>
         </div>
         <nav className="p-4 space-y-2 text-sm">
-          <Link to="/" className="block px-4 py-2 rounded hover:bg-green-50 transition">
-            Beranda
-          </Link>
-          <Link to="/ProductList" className="block px-4 py-2 rounded hover:bg-green-50 transition">
-            Produk
-          </Link>
-          <Link to="/tentang" className="block px-4 py-2 rounded hover:bg-green-50 transition">
-            Tentang
-          </Link>
-          <Link to="/kontak" className="block px-4 py-2 rounded hover:bg-green-50 transition">
-            Kontak
-          </Link>
+          <Link to="/" className="block px-4 py-2 rounded hover:bg-green-50 transition">Beranda</Link>
+          <Link to="/ProductList" className="block px-4 py-2 rounded hover:bg-green-50 transition">Produk</Link>
+          <Link to="/Tracking" className="block px-4 py-2 rounded hover:bg-green-50 transition">Paket Saya</Link>
+          <Link to="/About" className="block px-4 py-2 rounded hover:bg-green-50 transition">Tentang</Link>
+          <Link to="/Contact" className="block px-4 py-2 rounded hover:bg-green-50 transition">Kontak</Link>
         </nav>
       </aside>
 
-      <div className="h-20" /> {/* Spacer */}
+      <div className="h-20" />
 
       {/* Hero */}
       <section className="bg-gradient-to-tr from-green-400 to-green-600 text-white py-24 px-6 text-center rounded-b-3xl">
@@ -113,23 +122,29 @@ const Homepage = () => {
         </p>
       </section>
 
-      {/* Produk Unggulan Carousel */}
-      <section className="py-16 px-6">
+      {/* Produk Unggulan */}
+      <section className="py-16 px-6 bg-green-50">
         <h2 className="text-3xl font-bold text-center text-green-600 mb-12">Produk Unggulan</h2>
-        <div className="flex space-x-6 overflow-x-auto scrollbar-hide pb-4">
+        <div className="flex space-x-6 overflow-x-auto scrollbar-hide pb-4 px-2">
           {featuredProducts.map((produk, i) => (
             <div
               key={i}
-              className="min-w-[280px] md:min-w-[320px] bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col"
+              className="min-w-[280px] md:min-w-[320px] bg-white border rounded-2xl p-5 shadow hover:shadow-md transition-all duration-300 flex flex-col items-center"
             >
               <img
                 src={produk.img}
                 alt={produk.nama}
-                className="w-full h-56 object-cover rounded-lg mb-4"
+                className="w-full h-52 object-contain rounded-md mb-4 bg-gray-100"
               />
-              <h3 className="text-xl font-semibold text-green-600 mb-2">{produk.nama}</h3>
-              <p className="text-gray-600 text-sm mb-4 flex-grow">{produk.desc}</p>
-              <button className="bg-green-600 text-white px-5 py-2 rounded-full hover:bg-green-700 transition">
+              <h3 className="text-lg font-bold text-center text-black mb-1">{produk.nama}</h3>
+              <p className="text-green-600 font-semibold mb-1">
+                Rp{produk.harga.toLocaleString('id-ID')}
+              </p>
+              <p className="text-sm text-center text-gray-600 mb-4">{produk.desc}</p>
+              <button
+                onClick={() => handleBuyNow(produk)}
+                className="bg-green-600 text-white text-sm font-semibold px-5 py-2 rounded-full hover:bg-green-700 transition"
+              >
                 Beli Sekarang
               </button>
             </div>
@@ -147,33 +162,15 @@ const Homepage = () => {
               untuk hasil panen yang melimpah.
             </p>
           </div>
-
           <div>
             <h4 className="font-semibold mb-2">Navigasi</h4>
             <ul className="space-y-1 text-sm">
-              <li>
-                <Link to="/" className="hover:text-green-600">
-                  Beranda
-                </Link>
-              </li>
-              <li>
-                <Link to="/ProductList" className="hover:text-green-600">
-                  Produk
-                </Link>
-              </li>
-              <li>
-                <Link to="/tentang" className="hover:text-green-600">
-                  Tentang
-                </Link>
-              </li>
-              <li>
-                <Link to="/kontak" className="hover:text-green-600">
-                  Kontak
-                </Link>
-              </li>
+              <li><Link to="/" className="hover:text-green-600">Beranda</Link></li>
+              <li><Link to="/ProductList" className="hover:text-green-600">Produk</Link></li>
+              <li><Link to="/About" className="hover:text-green-600">Tentang</Link></li>
+              <li><Link to="/Contact" className="hover:text-green-600">Kontak</Link></li>
             </ul>
           </div>
-
           <div>
             <h4 className="font-semibold mb-2">Kontak Kami</h4>
             <p className="text-sm">Jl. Pertanian No. 123, Bandung</p>

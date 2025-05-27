@@ -1,3 +1,4 @@
+// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Homepage from './Components/Homepage';
@@ -6,24 +7,33 @@ import ProductList from './Components/Productlist';
 import ShopCart from './Components/Shopcart';
 import Navbar from './Components/Navbar';
 import RegisterPage from './Components/Daftar';
-import {CartProvider}  from './context/CartContext'; // pastikan path ini sesuai
+import { CartProvider } from './context/CartContext';
+import { AuthProvider } from './context/AuthContext';
+import About from './Components/About';
+import Contact from './Components/Contact';
+import TrackingPage from './Components/TrackingPage';
 
 function App() {
   return (
-    <CartProvider>
-      <Router>
-        <Navbar />
-        <Routes>    
-          <Route path="/" element={<Homepage />} />
-          <Route path="/DaftarPage" element={<RegisterPage />} />
-          <Route path="/Loginpage" element={<LoginPage />} />
-          <Route path="/ProductList" element={<ProductList />} />
-          <Route path="/ShopCart" element={<ShopCart />} />
-        </Routes>
-        
-      </Router>
-    </CartProvider>
+    <Router> {/* 👈 Router sekarang membungkus semuanya */}
+      <CartProvider>
+        <AuthProvider> {/* 👈 AuthProvider sekarang ada DI DALAM Router */}
+          <Navbar />
+          <Routes>
+            <Route path="/Contact" element={<Contact />} />
+            <Route path="/About" element={<About />} />
+            <Route path="/" element={<Homepage />} />
+            <Route path="/Tracking" element={<TrackingPage />} />
+            <Route path="/DaftarPage" element={<RegisterPage />} />
+            <Route path="/Loginpage" element={<LoginPage />} />
+            <Route path="/ProductList" element={<ProductList />} />
+            <Route path="/ShopCart" element={<ShopCart />} />
+          </Routes>
+          {/* Anda bisa meletakkan komponen Footer di sini jika ada */}
+        </AuthProvider>
+      </CartProvider>
+    </Router>
   );
 }
 
-export default App;
+export default App; 
