@@ -15,7 +15,7 @@ const Navbar = () => {
   const handleSearch = (e) => {
     if (e.key === "Enter" && keyword.trim() !== "") {
       navigate(`/ProductList?search=${encodeURIComponent(keyword.trim())}`);
-      setKeyword(""); // Reset input setelah search
+      setKeyword(""); 
     }
   };
 
@@ -25,7 +25,7 @@ const Navbar = () => {
 
   const handleCartClick = (e) => {
     if (!isAuthenticated) {
-      e.preventDefault(); // Mencegah navigasi default dari Link jika belum login
+      e.preventDefault(); 
       alert("Anda harus login terlebih dahulu untuk melihat keranjang belanja.");
       navigate('/loginpage'); // Arahkan ke halaman login jika belum login
     }
@@ -56,13 +56,12 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center space-x-4 text-sm font-medium text-gray-700">
-          {/* Tombol Cart dengan logika baru */}
-          <Link to="/ShopCart" onClick={handleCartClick} className="relative flex items-center hover:text-green-600">
+          <Link to="/ShopCart" onClick={handleCartClick} className="relative flex items-center hover:text-green-600"> {/* */}
             <div className="relative">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 10V6a3 3 0 0 1 3-3v0a3 3 0 0 1 3 3v4m3-2 .917 11.923A1 1 0 0 1 17.92 21H6.08a1 1 0 0 1-.997-1.077L6 8h12Z" />
               </svg>
-              {isAuthenticated && totalItems > 0 && ( // Tampilkan jumlah item hanya jika sudah login
+              {isAuthenticated && totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {totalItems}
                 </span>
@@ -71,13 +70,12 @@ const Navbar = () => {
             <span className="ml-1">Cart</span>
           </Link>
 
-          {/* Kondisional untuk Login/Register atau Info User/Logout */}
           {isLoadingAuth ? (
             <div>Memuat...</div>
           ) : isAuthenticated && currentUser ? (
             <>
               <span className="hover:text-green-600 hidden sm:inline">
-                Halo, {currentUser.username || currentUser.name}! {/* Menampilkan username atau name */}
+                Halo, {currentUser.username || currentUser.name}! {/* */}
               </span>
               <button
                 onClick={handleLogout}

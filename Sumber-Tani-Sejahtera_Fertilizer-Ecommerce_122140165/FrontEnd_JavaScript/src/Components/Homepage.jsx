@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext'; // 🔄 Tambahkan ini
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext'; // Pastikan useAuth sudah diimpor
 
 const Homepage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
-  const { addToCart } = useCart(); // 🔄 Ambil dari context
+  const { addToCart } = useCart();
+  const { isAuthenticated } = useAuth(); // Ambil isAuthenticated dari AuthContext
 
   const featuredProducts = [
+    // ... (data produk tetap sama)
     {
       nama: 'Pupuk Organik A',
       desc: 'Cocok untuk semua jenis tanaman. 100% alami dan ramah lingkungan.',
@@ -28,15 +31,37 @@ const Homepage = () => {
     },
   ];
 
- const handleBuyNow = (produk) => {
-  addToCart({
-    id: produk.nama, // gunakan 'nama' sebagai id sementara
-    nama: produk.nama,
-    harga: produk.harga,
-    gambar: produk.img,
-  });
-  navigate('/ShopCart');
-};
+  const handleBuyNow = (produk) => {
+    if (!isAuthenticated) {
+      alert("Anda harus login terlebih dahulu untuk membeli produk.");
+      navigate('/loginpage');
+    } else {
+      addToCart({
+        id: produk.nama, 
+        nama: produk.nama,
+        harga: produk.harga,
+        gambar: produk.img,
+      });
+      navigate('/ShopCart');
+    }
+  };
+
+  // Fungsi untuk menangani klik pada link yang memerlukan autentikasi
+  const handleProtectedLinkClick = (e, path) => {
+    if (!isAuthenticated) {
+      e.preventDefault(); 
+      alert("Anda harus login terlebih dahulu untuk mengakses halaman ini.");
+      navigate('/loginpage');
+    } else {
+      // Jika sudah login dan event ada (misalnya dari tag <a>), kita hanya perlu navigasi
+      // Jika event tidak ada (misalnya dipanggil langsung), atau jika path diberikan, navigasi ke path
+      if (path) {
+        navigate(path);
+      }
+      // Jika path tidak diberikan dan e ada, biarkan default action dari e (jika e adalah Link)
+      // Namun karena kita menggunakan <a>, kita selalu perlu navigate(path)
+    }
+  };
 
   return (
     <div className="relative min-h-screen bg-white text-gray-800 overflow-x-hidden">
@@ -90,22 +115,49 @@ const Homepage = () => {
           <h2 className="text-lg font-semibold text-green-600">Menu</h2>
         </div>
         <nav className="p-4 space-y-2 text-sm">
+          {/* Link yang tidak diproteksi */}
           <Link to="/" className="block px-4 py-2 rounded hover:bg-green-50 transition">Beranda</Link>
-          <Link to="/ProductList" className="block px-4 py-2 rounded hover:bg-green-50 transition">Produk</Link>
-          <Link to="/Tracking" className="block px-4 py-2 rounded hover:bg-green-50 transition">Paket Saya</Link>
+          
+          {/* Link "Produk" yang diproteksi */}
+          <a 
+            href="/ProductList" 
+            onClick={(e) => handleProtectedLinkClick(e, '/ProductList')} 
+            className="block px-4 py-2 rounded hover:bg-green-50 transition cursor-pointer"
+          >
+            Produk
+          </a>
+          
+          {/* Link "Paket Saya" yang diproteksi */}
+          <a 
+            href="/Tracking" 
+            onClick={(e) => handleProtectedLinkClick(e, '/Tracking')} 
+            className="block px-4 py-2 rounded hover:bg-green-50 transition cursor-pointer"
+          >
+            Paket Saya
+          </a>
+          
+          {/* Link yang tidak diproteksi */}
           <Link to="/About" className="block px-4 py-2 rounded hover:bg-green-50 transition">Tentang</Link>
           <Link to="/Contact" className="block px-4 py-2 rounded hover:bg-green-50 transition">Kontak</Link>
         </nav>
       </aside>
 
-      <div className="h-20" />
+      <div className="h-20" /> {/* Spacer untuk navbar fixed */}
 
       {/* Hero */}
       <section className="bg-gradient-to-tr from-green-400 to-green-600 text-white py-24 px-6 text-center rounded-b-3xl">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">Sumber Tani Sejahtera</h1>
         <p className="text-lg mb-6">Solusi Tepat Tanaman Anda</p>
         <Link
-          to="/ProductList"
+          to="/ProductList" // Link ini di Hero section, jika ingin diproteksi juga, gunakan pola yang sama
+          onClick={(e) => { // Contoh jika ingin diproteksi juga
+              if (!isAuthenticated) {
+                  e.preventDefault();
+                  alert("Anda harus login terlebih dahulu untuk melihat produk.");
+                  navigate('/loginpage');
+              }
+              // Jika sudah login, Link akan bekerja normal
+          }}
           className="bg-white text-green-600 px-6 py-2 rounded-full shadow hover:bg-gray-100 transition"
         >
           Lihat Produk
@@ -166,7 +218,16 @@ const Homepage = () => {
             <h4 className="font-semibold mb-2">Navigasi</h4>
             <ul className="space-y-1 text-sm">
               <li><Link to="/" className="hover:text-green-600">Beranda</Link></li>
-              <li><Link to="/ProductList" className="hover:text-green-600">Produk</Link></li>
+              <li>
+                {/* Link Produk di Footer, jika ingin diproteksi juga */}
+                <a 
+                  href="/ProductList" 
+                  onClick={(e) => handleProtectedLinkClick(e, '/ProductList')} 
+                  className="hover:text-green-600 cursor-pointer"
+                >
+                  Produk
+                </a>
+              </li>
               <li><Link to="/About" className="hover:text-green-600">Tentang</Link></li>
               <li><Link to="/Contact" className="hover:text-green-600">Kontak</Link></li>
             </ul>
