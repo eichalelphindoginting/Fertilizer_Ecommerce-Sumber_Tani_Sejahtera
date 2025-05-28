@@ -6,6 +6,7 @@ from .models import DBSession
 from .models.meta import Base
 from . import models
 from pyramid.renderers import JSON
+from .models.mymodel import MyModel
 
 # Path ke tween CORS Anda
 CORS_TWEEN_FACTORY = 'sumber_tani_sejahtera.cors_tween.cors_tween_factory'

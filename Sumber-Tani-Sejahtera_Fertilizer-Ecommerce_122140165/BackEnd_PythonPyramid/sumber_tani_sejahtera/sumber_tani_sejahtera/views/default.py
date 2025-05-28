@@ -9,5 +9,8 @@ import datetime
 
 SECRET_KEY = 'secret123'
 
-
+@view_config(route_name='nama_route_anda', renderer='json') # atau renderer template
+def my_view(request):
+    # Logika view Anda di sini
+    return {'project': 'Sumber_Tani_Sejahtera', 'status': 'ok'} 
         

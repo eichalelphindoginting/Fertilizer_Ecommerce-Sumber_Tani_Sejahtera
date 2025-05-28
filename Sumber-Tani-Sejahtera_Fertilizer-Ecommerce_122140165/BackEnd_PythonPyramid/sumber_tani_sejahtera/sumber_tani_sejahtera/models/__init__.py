@@ -8,6 +8,7 @@ from .meta import Base
 # Impor model-model Anda agar mudah diakses dan terdaftar di metadata Base
 from .user import User
 # ... impor model lain jika ada ...
+from .mymodel import MyModel # <--- PERBAIKAN DI SINI
 
 # DBSession adalah scoped_session agar thread-safe
 # Konfigurasi bind akan dilakukan di __init__.py utama aplikasi
@@ -25,4 +26,4 @@ def includeme(config):
     pass
 
 # Opsional: Anda bisa juga mendefinisikan fungsi initialize_sql di sini jika mau
-# yang dipanggil dari __init__.py utama aplikasi
+# yang dipanggil dari __init__.py utama aplikasi            
