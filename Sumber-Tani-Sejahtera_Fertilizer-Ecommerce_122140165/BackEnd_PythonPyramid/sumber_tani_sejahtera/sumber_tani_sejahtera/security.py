@@ -2,12 +2,11 @@ import jwt
 import datetime
 from passlib.context import CryptContext
 
-JWT_SECRET_KEY = "your-super-secret-jwt-key" # GANTI INI DENGAN KUNCI YANG KUAT!
+JWT_SECRET_KEY = "your-super-secret-jwt-key" 
 JWT_ALGORITHM = "HS256"
-JWT_EXPIRATION_DELTA_MINUTES = 30 # Token berlaku selama 30 menit
+JWT_EXPIRATION_DELTA_MINUTES = 30 
 
 def hash_password(password: str) -> str:
-    # Jika pwd_context didefinisikan di user.py, import dari sana
     from .models.user import pwd_context as user_pwd_context
     return user_pwd_context.hash(password)
 

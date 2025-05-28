@@ -57,8 +57,6 @@ class TestAuthViews(unittest.TestCase):
 
     def test_register_email_exists(self):
         request = testing.DummyRequest()
-        
-        # Variabel ini akan digunakan oleh side_effect, jadi harus bisa diakses
         test_username_unik = 'userUnikUntukTesEmailXYZ' 
         test_email_terdaftar = 'email.sudah.ada.banget@example.com'
 
@@ -68,32 +66,28 @@ class TestAuthViews(unittest.TestCase):
             'password': 'password123'
         }
 
-        # Siapkan mock untuk objek yang akan dikembalikan oleh .first()
         mock_hasil_query_username = mock.MagicMock()
-        mock_hasil_query_username.first.return_value = None # Untuk username unik
+        mock_hasil_query_username.first.return_value = None 
 
         mock_hasil_query_email = mock.MagicMock()
         mock_user_ditemukan_via_email = mock.MagicMock(spec=User)
-        mock_hasil_query_email.first.return_value = mock_user_ditemukan_via_email # Untuk email yang sudah ada
+        mock_hasil_query_email.first.return_value = mock_user_ditemukan_via_email
 
         # Definisikan side_effect untuk metode filter_by
         def side_effect_filter_by(**kwargs):
             if 'username' in kwargs and kwargs['username'] == test_username_unik:
                 print(f"[DEBUG side_effect_filter_by] Dipanggil untuk username: {kwargs['username']}, mengembalikan mock yang .first nya None")
-                return mock_hasil_query_username # Ini adalah mock objek filter, yang .first nya sudah di-set
+                return mock_hasil_query_username 
             elif 'email' in kwargs and kwargs['email'] == test_email_terdaftar:
                 print(f"[DEBUG side_effect_filter_by] Dipanggil untuk email: {kwargs['email']}, mengembalikan mock yang .first nya User instance")
-                return mock_hasil_query_email # Ini adalah mock objek filter, yang .first nya sudah di-set
+                return mock_hasil_query_email
             
             # Jika dipanggil dengan argumen lain, kembalikan mock default atau raise error
             print(f"[DEBUG side_effect_filter_by] Panggilan tak terduga atau tidak di-handle: {kwargs}")
             default_mock_filter_obj = mock.MagicMock()
-            default_mock_filter_obj.first.return_value = mock.MagicMock(spec=User) # atau None, tergantung default yang aman
+            default_mock_filter_obj.first.return_value = mock.MagicMock(spec=User) 
             return default_mock_filter_obj
 
-        # Konfigurasi rantai mock:
-        # MockDBSession.query(...) akan mengembalikan sebuah mock (kita sebut mock_query_obj)
-        # mock_query_obj.filter_by(...) akan memanggil side_effect kita
         mock_query_obj = mock.MagicMock()
         mock_query_obj.filter_by.side_effect = side_effect_filter_by
         self.MockDBSession.query.return_value = mock_query_obj
@@ -101,16 +95,12 @@ class TestAuthViews(unittest.TestCase):
         print("\n--- DEBUG INFO test_register_email_exists (setelah perombakan mock) ---")
         print(f"Request body: {request.json_body}")
         
-        # Panggil view yang diuji
         response = register_view(request) 
         
         print(f"Respons dari view: {response}")
-        # Verifikasi bahwa query().filter_by() dipanggil setidaknya untuk username
+     
         self.assertTrue(mock_query_obj.filter_by.called, "MockDBSession.query().filter_by() tidak dipanggil")
         
-        # Anda bisa menambahkan assertions yang lebih spesifik tentang berapa kali dipanggil
-        # Contoh: memastikan filter_by dipanggil untuk username DAN email
-        # Ini memerlukan pelacakan panggilan yang lebih cermat di side_effect atau menggunakan call_args_list
         
         print("--- AKHIR DEBUG INFO ---\n")
 

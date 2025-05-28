@@ -6,9 +6,7 @@ from passlib.context import CryptContext
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class User(Base):
-    """ Model Pengguna """
     __tablename__ = "users"
-
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String(100), unique=True, index=True, nullable=False)
     email = Column(String(255), unique=True, index=True, nullable=False)
@@ -17,16 +15,11 @@ class User(Base):
     updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
     def verify_password(self, plain_password):
-        """Verifikasi password yang diberikan dengan hash yang disimpan."""
         return pwd_context.verify(plain_password, self.hashed_password)
-
     def set_password(self, plain_password):
-        """Hash password dan simpan."""
         self.hashed_password = pwd_context.hash(plain_password)
-
     def __repr__(self):
         return f"<User(username='{self.username}', email='{self.email}')>"
 
-# Fungsi helper untuk hashing password (bisa juga ditaruh di security.py)
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)

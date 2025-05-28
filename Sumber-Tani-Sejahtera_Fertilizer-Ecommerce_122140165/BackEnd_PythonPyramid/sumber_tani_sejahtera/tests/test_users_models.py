@@ -1,5 +1,5 @@
 import unittest
-from sumber_tani_sejahtera.models.user import User # Sesuaikan dengan path proyek Anda
+from sumber_tani_sejahtera.models.user import User 
 
 class TestUserModel(unittest.TestCase):
 
