@@ -41,5 +41,10 @@ def main(global_config, **settings):
 
     json_renderer = JSON()
     config.add_renderer('json', json_renderer)
+    config.add_route('api_login', '/api/login')
+    config.add_route('api_register', '/api/register')
+    config.add_route('api_user', '/api/user') # Pastikan ini juga ada jika Anda menggunakan route_name 'api_user'
+# Tambahkan rute baru di bawah ini:
+    config.add_route('api_list_users', '/api/users')
 
     return config.make_wsgi_app()

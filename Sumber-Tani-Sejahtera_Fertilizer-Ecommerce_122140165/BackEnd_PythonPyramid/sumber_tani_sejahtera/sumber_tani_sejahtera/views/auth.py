@@ -74,14 +74,9 @@ def register_view(request):
 
 @view_config(route_name='api_login', request_method='POST', renderer='json')
 def login_view(request):
-    """
-    View untuk login pengguna.
-    Menerima: username, password
-    Mengembalikan: token jika berhasil
-    """
     try:
         json_body = request.json_body
-        username = json_body.get('username') # Frontend mengirim 'username'
+        username = json_body.get('username') 
         plain_password = json_body.get('password')
 
         if not username or not plain_password:
@@ -120,7 +115,29 @@ def login_view(request):
         request.log_exception(e)
         request.response.status_code = 500
         return {'success': False, 'message': 'Terjadi kesalahan internal server saat login.'}
+@view_config(route_name='api_list_users', request_method='GET', renderer='json')
+def list_users_view(request):
+    """
+    View untuk menampilkan daftar semua pengguna terdaftar.
+    """
+    try:
+        users = DBSession.query(User).all() # Mengambil semua data pengguna dari database
+        user_list = []
+        for user in users:
+            user_data = {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email
+                # Jangan sertakan password atau data sensitif lainnya
+            }
+            user_list.append(user_data)
+        
+        return {'success': True, 'users': user_list}
 
+    except Exception as e:
+        request.log_exception(e) # Log error server
+        request.response.status_code = 500
+        return {'success': False, 'message': 'Terjadi kesalahan internal server saat mengambil data pengguna.'}
 # Tambahkan view untuk OPTIONS request jika diperlukan untuk CORS preflight
 @view_config(route_name='api_register', request_method='OPTIONS', renderer='json')
 @view_config(route_name='api_login', request_method='OPTIONS', renderer='json')
