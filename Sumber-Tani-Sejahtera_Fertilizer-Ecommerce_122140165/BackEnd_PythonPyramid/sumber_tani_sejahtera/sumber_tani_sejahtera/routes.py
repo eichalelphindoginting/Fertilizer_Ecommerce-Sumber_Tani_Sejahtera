@@ -5,3 +5,4 @@ def includeme(config):
     config.add_route('api_register', '/api/register')
     config.add_route('api_login', '/api/login')
     config.add_route('api_user', '/api/user')
+    config.add_route('api_product_item', '/api/products/{id}')

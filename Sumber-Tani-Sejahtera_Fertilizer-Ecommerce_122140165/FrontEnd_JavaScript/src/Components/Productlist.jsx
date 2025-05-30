@@ -23,8 +23,8 @@ const ProductList = () => {
         if (response.data && response.data.success) {
           const productsFromApi = response.data.data.map(p => ({
             id: p.id,
-            nama: p.name, // Sesuaikan dengan 'nama' jika ProductCard masih menggunakan itu
-            deskripsi: p.description, // Sesuaikan dengan 'deskripsi'
+            name: p.name, // Sesuaikan dengan 'nama' jika ProductCard masih menggunakan itu
+            description: p.description, // Sesuaikan dengan 'deskripsi'
             price: p.price, // API mengirim 'price' sebagai angka
             image_url: p.image_url, // API mengirim 'image_url'
             category_name: p.category_name,
@@ -48,7 +48,7 @@ const ProductList = () => {
   }, []); // Hanya fetch sekali saat komponen dimuat
 
   const filteredProducts = apiProducts.filter((item) =>
-    item.nama.toLowerCase().includes(keyword)
+    item.name.toLowerCase().includes(keyword)
   );
 
   if (loading) {
