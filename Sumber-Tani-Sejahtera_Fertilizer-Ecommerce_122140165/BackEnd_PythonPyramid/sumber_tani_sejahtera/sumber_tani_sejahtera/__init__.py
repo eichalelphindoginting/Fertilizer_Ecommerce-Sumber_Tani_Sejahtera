@@ -27,5 +27,7 @@ def main(global_config, **settings):
     config.add_route('api_register', '/api/register')
     config.add_route('api_user', '/api/user') # Pastikan ini juga ada jika Anda menggunakan route_name 'api_user'
     config.add_route('api_list_users', '/api/users')
+    config.add_route('api_products_collection', '/api/products')
+    config.add_route('api_product_item', '/api/products/{product_id}')
 
     return config.make_wsgi_app()
