@@ -12,12 +12,14 @@ import { AuthProvider } from './context/AuthContext';
 import About from './Components/About';
 import Contact from './Components/Contact';
 import TrackingPage from './Components/TrackingPage';
+import Layout from './Components/Layout';
 
 function App() {
   return (
     <Router> {/* 👈 Router sekarang membungkus semuanya */}
       <CartProvider>
-        <AuthProvider> {/* 👈 AuthProvider sekarang ada DI DALAM Router */}
+        <AuthProvider>
+          <Layout> {/* 👈 AuthProvider sekarang ada DI DALAM Router */}
           <Navbar />
           <Routes>
             <Route path="/Contact" element={<Contact />} />
@@ -30,6 +32,7 @@ function App() {
             <Route path="/ShopCart" element={<ShopCart />} />
           </Routes>
           {/* Anda bisa meletakkan komponen Footer di sini jika ada */}
+          </Layout>
         </AuthProvider>
       </CartProvider>
     </Router>

@@ -1,98 +1,118 @@
 // src/components/ProductCard.jsx
 import React from 'react';
-import { useCart } from '../context/CartContext'; // Pastikan path ini benar
+import { Link } from 'react-router-dom'; // Impor Link
+import { useCart } from '../context/CartContext';
 
 const ProductCard = ({ product }) => {
-  const { addToCart } = useCart();
+  const { addToCart, cart } = useCart(); // Ambil 'cart' juga untuk cek item
 
-  // 1. Pemeriksaan awal untuk prop 'product'
   if (!product || typeof product !== 'object') {
     console.error("ProductCard menerima prop product yang tidak valid:", product);
-    return null; 
+    return ( // Berikan fallback UI minimal jika produk tidak valid di production
+      <div className="border rounded-lg p-4 text-center text-red-500">
+        Data produk tidak valid.
+      </div>
+    );
   }
 
-  // 2. Pendefinisian eksplisit untuk setiap field dari tabel 'product' backend.
-  //    Pola: Ambil data mentah -> validasi/format/fallback -> variabel siap pakai.
-
-  // Untuk ID PRODUK (Kolom: id - Tipe: Integer)
-  // Biasanya tidak ditampilkan langsung, tapi penting untuk 'key' dan data.
-  const productId = product.id; // Data 'id' mentah dari backend. Diasumsikan selalu ada jika produk valid.
-
-  // Untuk NAMA PRODUK (Kolom: name - Tipe: String)
-  const rawProductName = product.name; // Data 'name' mentah dari backend
-  // Definisi untuk tampilan: pastikan string, jika tidak atau kosong, gunakan fallback.
-  const productNameForDisplay = (typeof rawProductName === 'string' && rawProductName.trim() !== '')
-                              ? rawProductName
-                              : "Nama Produk Tidak Tersedia";
-
-  // Untuk DESKRIPSI PRODUK (Kolom: description - Tipe: Text/String)
-  const rawProductDescription = product.description; // Data 'description' mentah dari backend
-  // Definisi untuk tampilan: pastikan string, jika tidak atau kosong, gunakan fallback.
-  const productDescriptionForDisplay = (typeof rawProductDescription === 'string' && rawProductDescription.trim() !== '')
-                                   ? rawProductDescription
-                                   : "Deskripsi tidak tersedia.";
-
-  // Untuk HARGA PRODUK (Kolom: price - Tipe: Integer)
-  const rawPrice = product.price; // Data 'price' mentah dari backend
-  // Validasi: pastikan harga adalah angka, jika tidak atau tidak valid, gunakan 0.
-  const hargaNumber = (typeof rawPrice === 'number' && !isNaN(rawPrice)) 
-                      ? rawPrice 
-                      : 0;
-  // Format harga untuk tampilan dengan format mata uang Indonesia.
+  const productId = product.id;
+  const productNameForDisplay = (typeof product.name === 'string' && product.name.trim() !== '')
+                                ? product.name
+                                : "Nama Produk Tidak Tersedia";
+  const productDescriptionForDisplay = (typeof product.description === 'string' && product.description.trim() !== '')
+                                      ? product.description
+                                      : "Deskripsi tidak tersedia.";
+  const hargaNumber = (typeof product.price === 'number' && !isNaN(product.price)) 
+                        ? product.price 
+                        : 0;
   const formattedHarga = `Rp${hargaNumber.toLocaleString('id-ID')}`;
+  const productStock = (typeof product.stock === 'number' && !isNaN(product.stock)) 
+                        ? product.stock 
+                        : 0;
+  const imageUrlForDisplay = (typeof product.image_url === 'string' && product.image_url.trim() !== '')
+                              ? product.image_url
+                              : 'https://via.placeholder.com/300x200.png?text=No+Image';
 
-  // Untuk STOK PRODUK (Kolom: stock - Tipe: Integer)
-  const rawStock = product.stock; // Data 'stock' mentah dari backend
-  // Validasi: pastikan stok adalah angka, jika tidak atau tidak valid, gunakan 0.
-  const productStock = (typeof rawStock === 'number' && !isNaN(rawStock)) 
-                       ? rawStock 
-                       : 0;
-
-  // Untuk URL GAMBAR PRODUK (Kolom: image_url - Tipe: String)
-  const rawImageUrl = product.image_url; // Data 'image_url' mentah dari backend
-  // Definisi untuk tampilan: pastikan string, jika tidak atau kosong, gunakan fallback.
-  const imageUrlForDisplay = (typeof rawImageUrl === 'string' && rawImageUrl.trim() !== '')
-                           ? rawImageUrl
-                           : 'https://via.placeholder.com/150';
-
-  // 3. Objek produk yang akan ditambahkan ke keranjang
-  //    Menggunakan variabel yang sudah divalidasi dan memiliki fallback.
   const productForCart = {
     id: productId,
     nama: productNameForDisplay,
-    deskripsi: productDescriptionForDisplay,
-    harga: hargaNumber, // Harga sebagai angka (sudah divalidasi)
+    // deskripsi: productDescriptionForDisplay, // Deskripsi biasanya tidak perlu di cart object
+    harga: hargaNumber,
     gambar: imageUrlForDisplay,
-    stock: productStock, // Stok sebagai angka (sudah divalidasi)
+    // stock: productStock, // Stock juga biasanya tidak disimpan di cart, tapi diambil dari data produk asli
   };
 
+  const itemInCart = cart.find(item => item.id === productId);
+
+  // Menentukan status stok dan warna teksnya
+  let stockStatusText;
+  let stockTextColorClass;
+  if (productStock > 10) {
+    stockStatusText = "Stok Melimpah";
+    stockTextColorClass = "text-green-600";
+  } else if (productStock > 0 && productStock <= 10) {
+    stockStatusText = `Stok Terbatas (${productStock})`;
+    stockTextColorClass = "text-orange-500";
+  } else {
+    stockStatusText = "Stok Habis";
+    stockTextColorClass = "text-red-600";
+  }
+
   return (
-    <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-5 flex flex-col items-center">
-      <img
-        src={imageUrlForDisplay}
-        alt={productNameForDisplay}
-        className="w-full h-40 object-cover rounded-xl mb-4"
-      />
-      <h2 className="text-lg font-bold text-center mb-2 h-12 overflow-hidden">
-        {productNameForDisplay}
-      </h2>
-      <p className="text-sm text-gray-600 text-center mb-3 h-16 overflow-hidden">
-        {productDescriptionForDisplay}
-      </p>
-      <p className="text-green-700 font-semibold text-base mb-4">
-        {formattedHarga}
-      </p>
-      {/* Anda bisa juga menampilkan stok jika diinginkan, contoh:
-      <p className="text-sm text-gray-500 text-center mb-3">
-        Stok: {productStock}
-      </p>
-      */}
-      <button
-        onClick={() => addToCart(productForCart)}
-        className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-xl transition"
-      >
-        Tambah ke Keranjang
-      </button>
+    <div className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-200 overflow-hidden">
+      <Link to={`/product/${productId}`} className="block relative aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-100">
+        {/* Gunakan plugin aspect-ratio jika tersedia, atau atur h-X untuk tinggi tetap */}
+        {/* aspect-w-1 aspect-h-1 akan membuat gambar persegi */}
+        <img
+          src={imageUrlForDisplay}
+          alt={productNameForDisplay}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          onError={(e) => { e.target.onerror = null; e.target.src='https://via.placeholder.com/300x200.png?text=Error'; }}
+        />
+      </Link>
+
+      <div className="p-4 flex flex-col flex-grow"> {/* flex-grow agar konten ini mengisi ruang dan tombol terdorong ke bawah */}
+        <Link to={`/product/${productId}`} className="block mb-1">
+          <h2 
+            className="text-base font-semibold text-gray-800 group-hover:text-green-600 transition-colors line-clamp-2" 
+            title={productNameForDisplay} // Tooltip untuk nama lengkap jika terpotong
+            style={{ minHeight: '2.5rem' }} // Untuk 2 baris teks (1rem line-height * 2 + sedikit spasi)
+          >
+            {productNameForDisplay}
+          </h2>
+        </Link>
+
+        {/* Deskripsi bisa diaktifkan jika perlu, dengan line-clamp */}
+        <p 
+            className="text-xs text-gray-500 mb-2 line-clamp-3"
+            style={{ minHeight: '2.25rem' }} // Untuk 3 baris teks (0.75rem line-height * 3)
+        >
+          {productDescriptionForDisplay}
+        </p>
+        
+        <p className={`text-xs font-medium mt-1 mb-3 ${stockTextColorClass}`}>
+          {stockStatusText}
+        </p>
+
+        {/* mt-auto akan mendorong harga dan tombol ke bawah jika deskripsi pendek */}
+        <p className="text-green-700 font-bold text-lg mt-auto pt-2"> 
+          {formattedHarga}
+        </p>
+      </div>
+
+      <div className="p-4 pt-0 mt-auto"> {/* Padding terpisah untuk tombol agar selalu di bawah */}
+        <button
+          onClick={() => addToCart(productForCart)}
+          disabled={productStock === 0}
+          className={`w-full text-sm font-medium py-2.5 px-4 rounded-md transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2
+            ${productStock === 0 
+              ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+              : 'bg-green-600 text-white hover:bg-green-700 active:bg-green-800 focus:ring-green-500'
+            }`}
+        >
+          {productStock === 0 ? 'Stok Habis' : (itemInCart ? `Tambah Lagi (${itemInCart.jumlah})` : 'Tambah ke Keranjang')}
+        </button>
+      </div>
     </div>
   );
 };
