@@ -70,7 +70,6 @@ Untuk bagian **logika keranjang (cart)** dan **pelacakan (tracking)** pada proye
     Untuk detail lebih lanjut, lihat `README.md` di dalam direktori frontend.
 
 ## Referensi
-* Dokumen Tugas Besar Pemrograman Web Semester Genap 2024/2025, Fakultas Teknologi Industri, Institut Teknologi Sumatera.
 * Dokumentasi Python Pyramid: [https://docs.pylonsproject.org/projects/pyramid/en/latest/](https://docs.pylonsproject.org/projects/pyramid/en/latest/)
 * Dokumentasi React JS: [https://reactjs.org/docs/getting-started.html](https://reactjs.org/docs/getting-started.html)
 * Dokumentasi Vite: [https://vitejs.dev/guide/](https://vitejs.dev/guide/)
