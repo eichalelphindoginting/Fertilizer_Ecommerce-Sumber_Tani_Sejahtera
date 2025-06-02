@@ -78,9 +78,3 @@ Untuk bagian **logika keranjang (cart)** dan **pelacakan (tracking)** pada proye
 * Dokumentasi Alembic: [https://alembic.sqlalchemy.org/en/latest/](https://alembic.sqlalchemy.org/en/latest/)
 
 ---
-**Pengingat Tugas Besar:**
-* Pastikan repositori GitHub Anda aktif sejak minggu pertama perkuliahan.
-* Username GitHub harus mengandung nama dan NIM.
-* Lakukan minimal 3 commit per minggu.
-* Unit testing untuk backend ditargetkan minimal 60% coverage untuk fungsi kritis.
-* Jangan lupa untuk membuat dokumentasi video demo sesuai ketentuan.
