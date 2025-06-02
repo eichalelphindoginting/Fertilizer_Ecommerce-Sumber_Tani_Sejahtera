@@ -2,7 +2,7 @@
 
 ## Deskripsi Aplikasi Web
 
-Sumber Tani Sejahtera adalah sebuah platform e-commerce yang dirancang untuk mempermudah proses jual beli pupuk secara online. Aplikasi web ini dikembangkan sebagai bagian dari Tugas Besar mata kuliah Pemrograman Web (Semester Genap 2024/2025) di Institut Teknologi Sumatera.
+Sumber Tani Sejahtera adalah sebuah platform e-commerce yang dirancang untuk mempermudah proses jual beli pupuk secara online. Aplikasi website ini dirancang untuk mempermudah kegiatan bertani terkhusus di bagian pupuk.
 
 Proyek ini dibangun dengan menggunakan:
 * **Backend**: Framework Python Pyramid, menyediakan RESTful API.
@@ -12,7 +12,7 @@ Proyek ini dibangun dengan menggunakan:
 ## Dependensi Paket (Library)
 
 ### Backend (Python Pyramid - Sumber_Tani_Sejahtera)
-Untuk menjalankan backend, pastikan Anda memiliki Python dan pip terinstal.
+Untuk menjalankan backend menggunakan Python dan pip terinstal.
 * **Direktori**: `Sumber-Tani-Sejahtera_Fertilizer-Ecommerce_122140165/BackEnd_PythonPyramid/sumber_tani_sejahtera/`
 * **Setup Awal**:
     1.  Masuk ke direktori proyek backend: `cd Sumber-Tani-Sejahtera_Fertilizer-Ecommerce_122140165/BackEnd_PythonPyramid/sumber_tani_sejahtera`
